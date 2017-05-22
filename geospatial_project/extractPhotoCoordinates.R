@@ -12,8 +12,8 @@ exif_info <- function(path) {
 }
 
 #call the function above and save the extracted photo info
-photo_info=exif_info(paste0(working_directory,"photos\\p1.jpg"))
+photo_info<-exif_info(paste0(working_directory,"photos\\p1.jpg"))
 
 #get coordinates data from photo_info and output
-photo_coordinates=read.csv(textConnection(photo_info), stringsAsFactors = FALSE)['GPSPosition']
+photo_coordinates<-read.csv(textConnection(photo_info), stringsAsFactors = FALSE)['GPSPosition']
 print(photo_coordinates)
