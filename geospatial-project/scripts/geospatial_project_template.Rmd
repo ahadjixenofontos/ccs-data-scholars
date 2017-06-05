@@ -1,6 +1,6 @@
 ---
 title: "Geospatial Data Project - Analysis Template"
-author: "Athina Hadjixenofontos, Ph.D, Guanhua Chen"
+author: "Athina Hadjixenofontos, Ph.D and Guanhua Chen"
 date: "6/1/2017"
 output: html_notebook
 ---
@@ -124,13 +124,11 @@ In the code block below, type the commands that will return the means and standa
 
 ```
 
-## Mapping a map of the United States of America
+## Mapping a map of the world
 
 So let's put the Miami-Dade libraries on a map! 
 
-Let's start with writing the code to draw a map of the world. The dataset you chose may not map to Miami-Dade. Instead, your data may map to the coast of west Africa and western Europe, or to the west coast of the United States. 
-
-**IMPORTANT:** After we draw the world map, we will zoom in to the area that concerns our datasets. I'll be using Miami-Dade as my zooming-in area because that's what's in the demonstration data, but you should zoom-in to the areas that are in YOUR chosen dataset. 
+In order to do that, let's start with writing the code to draw a map of the world, as an illustrative example. 
 
 #### First, we need the geographic coordinates for the coast of all the continents
 
@@ -148,19 +146,123 @@ The lat and long will be plotted as dots on the map. Those dots need to be conne
 #### Second, we need to plot those coordinates
 
 ```{r}
-world_plot <- ggplot(data = world) +
-                geom_polygon(aes(x = long, 
-                                 y = lat, 
-                                 fill = region, 
-                                 group = group)) +
-                coord_fixed(1.2) + # this makes sure the map isn't too stretched
-                guides(fill = FALSE) # this removes the legend 
-world_plot # this calls the plot named "world_plot" to appear on the screen
+ggplot(data = world) + # make a plot using the world data
+  geom_polygon(aes(x = long, # longitude goes on the x-axis
+                   y = lat, # latitude goes on the y-axis
+                   fill = region, # color by country
+                   group = group)) +
+  coord_quickmap() + # make sure the map isn't too stretched
+  guides(fill = FALSE) # remove the legend 
 ```
 
-Woohoo! Good job. 
+Woohoo! You just had the computer draw a map by connecting the dots of all the coastlines! Good job. 
 
-#### Let's zoom-in on Florida, so we can see Miami-Dade county. 
+#### Demonstration: Let's zoom-in on Florida, so we can see Miami-Dade county. 
+
+**IMPORTANT:** I'll be using Miami-Dade as my zooming-in area because that's what's in the demonstration data. The dataset you chose may not map to Miami-Dade. Instead, your data may map to the coast of west Africa and western Europe, or to the west coast of the United States. Therefore, you should zoom-in to the areas that are in YOUR chosen dataset. 
+
+First, we need to only take the coordinates data for countries or states in our dataset, instead of for the entire world.
+
+```{r}
+states <- map_data("state") # load the data for all states in the USA
+counties <- map_data("county") # load the data for all counties in the USA
+
+florida <- states[states$region == "florida",] # from all states, select only Florida 
+florida_counties <- counties[counties$region == "florida",] # from all counties, select only Florida counties
+```
+
+The above block of code gave us the coordinates for the regions of the world that we care about for the Miami-Dade libraries dataset - that is Florida!
+
+Now, let's use these subsets to draw a map of Florida and its counties. 
+
+NOTE: We will build this map slowly, until we have a map of the counties that we are happy with. Each of the following code blocks will add something to the plot, so you'll see a lot of the code being repeated. In real life you would only need the finalized version of the code that produces the plot you want. However, seeing how the plot is build layer by layer is useful for training purposes!
+
+It makes sense to make a map of the state of Florida as the first layer:
+
+```{r}
+ggplot() + 
+  geom_polygon(data = florida, # geom_polygon to connect the dots, using the florida data
+               aes(x = long, # use the variable long on the x axis
+                   y = lat, # use the variable lat on the y axis
+                   group = group)) +
+  coord_quickmap() # make sure the map isn't stretched
+```
+
+Beautiful! Okay, now, let's draw the counties on top of this map as an additional layer.
+
+To make it easier to see other colors that we will map on top, let's change the fill color from the dark gray to a lighter gray. 
+
+Now that we've figured out the code for plotting Florida, we can also save the plot in a variable, so we can access it later. 
+
+```{r}
+florida_map <- ggplot() + # save the plot in a variable named "florida_map"
+  geom_polygon(data = florida, 
+               aes(x = long, 
+                   y = lat, 
+                   group = group)) +
+  geom_polygon(data = florida_counties,   # plot Florida counties on top
+               aes(x = long, 
+                   y = lat, 
+                   group = group), 
+               fill = "gray",           # fill the polygons with lighter gray
+               color = "white") +       # add a white border
+  coord_quickmap()
+
+florida_map # call the plot named "florida_map" to appear on the screen
+```
+
+#### Your turn
+
+In the following code block, type the code that will subset the map_data() into the coordinates that are relevant for your mapping project. 
+
+Use the code examples from above, and substitute "florida" for the region of interest for your dataset, e.g. "new york"
+
+```{r}
+
+```
+
+Awesome! Now, follow the plotting examples above to produce a map of the state represented in your dataset, complete with county lines. 
+
+```{r}
+
+```
+
+
+## We're so close! Let's map the libraries on top of Miami-Dade County
+
+First, let's remind ourselves what we have in our dataset by taking another look. 
+
+```{r}
+head(libraries)
+```
+
+```{r}
+libraries_map <- ggplot() +        # I chose the map name to be "libraries_map"
+  geom_polygon(data = florida,        # draw the coastline of Florida
+               aes(x = long, 
+                   y = lat, 
+                   group = group)) +
+  geom_polygon(data = florida_counties,     # draw the Florida county lines
+               aes(x = long, 
+                   y = lat, 
+                   group = group), 
+               fill = "gray", 
+               color = "white") +
+  geom_point(data = libraries,            # draw the positions of the libraries
+             aes(x = longitude, 
+                 y = latitude), 
+             color = "blue", 
+             size = 1) +
+  coord_quickmap()
+
+libraries_map             # call the saved map to appear on the screen
+```
+
+
+## Adding street maps to the plot
+
+The `ggmap` package is an incredible library that allows us to download maps from Google or from a project called Open Street Maps to use in our plots. This means you can add streets to the plot! 
+
 
 
 

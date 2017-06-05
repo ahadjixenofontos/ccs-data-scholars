@@ -1,9 +1,7 @@
 library(leaflet)
 library(ggplot2) 
 
-working_directory<-'C:\\Research\\ccs-data-scholars\\geospatial_project\\'
-
-mydata <- read.csv(file=paste0(working_directory,"bird_tracking.csv"), header=TRUE, sep=",")
+mydata <- read.csv("bird_tracking.csv", header=TRUE, sep=",")
 head(mydata)
 
 #extract every 5 row of the data frame
