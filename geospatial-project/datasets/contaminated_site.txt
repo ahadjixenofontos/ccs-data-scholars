@@ -1,0 +1,322 @@
+
+FLORIDA GEOGRAPHIC DATA LIBRARY DOCUMENTATION
+
+TITLE: DERM CONTAMINATED SITES IN MIAMI DADE COUNTY - AUGUST 2015
+
+Geodataset Name:       MIAMI_DADE_DERM_AUG15
+Geodataset Type:       SDE Feature Class
+Geodataset Feature:    Point
+Feature Count:         2421
+
+GENERAL DESCRIPTION:
+This data set represents a point feature class of open DERM Contaminated sites -see phase code for status of site - in Miami Dade. Each feature identifies properties where environmental contamination has been documented in the soil or groundwater. Facilities get listed as a contaminated site by a DERM inspector who finds a violation on the property. Facilities that store potential contaminated materials are permitted and/or tracked by DERM. A site is removed from the active contaminated sites layer/list when the sites is found by DERM to be cleaned up.
+
+DATA SOURCE(S):                    Miami Dade Department of Environmental Resources Management
+SCALE OF ORIGINAL SOURCE MAPS:     24000
+GEODATASET EXTENT:                 Miami Dade
+
+PUBLICATION DATE:                  20150814
+TIME PERIOD OF CONTENT:            20150814
+DOWNLOAD LINK:                     http://www.fgdl.org/metadataexplorer/explorer.jsp
+
+FEATURE ATTRIBUTE TABLES:
+
+Datafile Name: MIAMI_DADE_DERM_AUG15.DBF
+
+ITEM NAME 	WIDTH 	TYPE
+OBJECTID
+	4 	OID
+Shape
+	4 	Geometry
+FOLIO
+	15 	String
+PHASE
+	2 	String
+TASK_NAME
+	80 	String
+HNUM
+	10 	String
+PRE_DIR
+	2 	String
+ST_NAME
+	18 	String
+ST_TYPE
+	4 	String
+PERMITTYPE
+	5 	String
+PERMITNO
+	5 	String
+FILENO
+	5 	String
+CLASSIFCTN
+	25 	String
+LAT
+	8 	Double
+LON
+	8 	Double
+POINT_X
+	8 	Double
+POINT_Y
+	8 	Double
+DESCRIPT
+	80 	String
+FGDLAQDATE
+	36 	Date
+AUTOID
+	4 	Integer
+
+FEATURE ATTRIBUTE TABLES CODES AND VALUES:
+
+Item
+
+	Item Description
+
+OBJECTID 	Internal feature number.
+
+Shape 	Feature geometry.
+
+FOLIO 	Folio Number
+
+PHASE 	Site status
+00 = Pending notification of CAR/CAP due (Site where contamination has been documented, but responsible party has not been officially notified yet) .
+
+01 = Pending CAR/CARA/CAP/CAPA submittal/review (Site that is in the assessment phase and are required to submit an approvable Site Assessment Report).
+
+02 = Pending RAP/RAPA/RAPM submittal/review (Site has completed the assessment phase and is now required to submit an approvable Remedial Action Plan to address contamination documented).
+
+04 = RAP approved (Site has completed the Remedial Action Plan and is pending implementation of the remedial alternative).
+
+05 = Recovery system operating (Site has implemented remedial alternative and is actively remediating contamination).
+
+06 = MOP approved (Site has implemented remedial alternative and is actively remediating contamination).
+
+09 = NFAP approved (Site has been granted no further action without having to conduct active remediation).
+
+10 = DERM NFA (Site has been granted no further action following tank closure assessment or notice of required testing assessment, but has not gone through the formal site assessment process).
+
+12 = Post MOP closure (Site has been granted no further action following the conclusion of some type of remedial alternative).
+
+
+TASK_NAME 	Site name
+
+HNUM 	House number
+
+PRE_DIR 	Street prefix direction
+
+ST_NAME 	Street name
+
+ST_TYPE 	Street type
+
+PERMITTYPE 	Permit Type
+
+PERMITNO 	Permit number
+
+FILENO 	Undefined by Source
+
+CLASSIFCTN 	Undefined by Source
+
+LAT 	Latitude
+
+LON 	Longitude
+
+POINT_X 	X coordinate
+
+POINT_Y 	Y coordinate
+
+DESCRIPT 	FGDL added field based on TASK_NAME
+
+FGDLAQDATE 	FGDL added field based on date downloaded from source
+
+AUTOID 	Unique ID added by GeoPlan
+
+USER NOTES:
+
+This data is provided 'as is'. GeoPlan relied on the integrity
+of the original data layer's topology
+
+This data is provided 'as is' by GeoPlan and is complete to our
+knowledge.
+
+GeoPlan relied on the integrity of the attribute information within
+the original data.
+
+Sites where DERM has documented contamination and the assessment/cleanup 
+is ongoing.
+  
+Data is updated in GIS production via a batch job.
+
+
+To identify the location of contaminated sites and to be used by the county 
+for mapping and analysis purposes.
+
+
+This data is provided 'as is' and its horizontal positional accuracy
+has not been verified by GeoPlan
+
+
+This data is provided 'as is' and its vertical positional accuracy
+has not been verified by GeoPlan
+
+
+A mapscale of 1:24000" was used, which is based on MDC Street Network.
+
+
+The Florida Geographic Data Library is a collection of Geospatial Data
+compiled by the University of Florida GeoPlan Center with support from
+the Florida Department of Transportation. GIS data available in FGDL is
+collected from various state, federal, and other agencies (data sources)
+who are data stewards, producers, or publishers. The data available in
+FGDL may not be the most current version of the data offered by the
+data source. University of Florida GeoPlan Center makes no guarantees
+about the currentness of the data and suggests that data users check
+with the data source to see if more recent versions of the data exist.
+
+Furthermore, the GIS data available in the FGDL are provided 'as is'.
+The University of Florida GeoPlan Center makes no warranties, guaranties
+or representations as to the truth, accuracy or completeness of the data
+provided by the data sources. The University of Florida GeoPlan Center
+makes no representations or warranties about the quality or suitability
+of the materials, either expressly or implied, including but not limited
+to any implied warranties of merchantability, fitness for a particular
+purpose, or non-infringement. The University of Florida GeoPlan Center
+shall not be liable for any damages suffered as a result of using,
+modifying, contributing or distributing the materials.
+
+A note about data scale: 
+
+Scale is an important factor in data usage.  Certain scale datasets
+are not suitable for some project, analysis, or modeling purposes.
+Please be sure you are using the best available data. 
+
+1:24000 scale datasets are recommended for projects that are at the
+county level.
+1:24000 data should NOT be used for high accuracy base mapping such
+as property parcel boundaries.
+1:100000 scale datasets are recommended for projects that are at the
+multi-county or regional level.
+1:125000 scale datasets are recommended for projects that are at the
+regional or state level or larger.
+
+Vector datasets with no defined scale or accuracy should be
+considered suspect. Make sure you are familiar with your data
+before using it for projects or analysis. Every effort has been
+made to supply the user with data documentation. For additional
+information, see the References section and the Data Source Contact
+section of this documentation. For more information regarding
+scale and accuracy, see our webpage at:
+http://geoplan.ufl.edu/education.html
+
+
+REFERENCES:
+
+
+DATA LINEAGE SUMMARY:
+
+Structure change. Addition of 3 new fields. PERMITTYPE, PERMITNO, 
+and FILENO.
+Process Date: 2009
+
+
+Addition of 6 sites.
+Process Date: 2009
+
+
+Addition of 35 sites.
+Process Date: 2009
+
+
+Modified metadata.
+Process Date: 2009
+
+
+Addition of 8 sites.
+Process Date: 2009
+
+
+Addition of 287 sites.
+Process Date: 2009
+
+
+To add 136 new sites
+Process Date: 2009
+
+
+GeoPlan downloaded this dataset from the Miami Dade Department of 
+Environmental Resources Management website
+(http://gisweb.miamidade.gov/GISSelfServices/GeographicData/MDGeographicData.html) 
+in January 2016. The data was downloaded as a shapefile and was in the 
+following projection: NAD_1983_StatePlane_Florida_East_FIPS_0901_Feet. 
+The dataset was projected to FGDL Albers HPGN.
+
+When downloaded the shapefile was zipped in file called 
+CONTAMINATEDSITE.ZIP. No metadata was included with this version, so 
+metadata from May 2012 was modified to represent this August 2015 version.
+
+- A DESCRIPT field was added based on TASK_NAME
+- A FGDLAQDATE field was added based on date downloaded from source
+- All records in the table were upcased
+- Renamed file from contaminated sites to miami_dade_derm_aug15
+Process Date: 20160126
+
+
+MAP PROJECTION PARAMETERS:
+
+Projection                          ALBERS
+Datum                               HPGN
+Units                               METERS
+Spheroid                            GRS1980
+1st Standard Parallel               24  0  0.000
+2nd Standard Parallel               31 30  0.000
+Central Meridian                   -84 00  0.000
+Latitude of Projection's Origin     24  0  0.000
+False Easting (meters)              400000.00000
+False Northing (meters)             0.00000
+
+DATA SOURCE CONTACT (S):
+
+Name:
+Abbr. Name:
+Address:
+
+
+Phone:
+
+Web site:
+E-mail:
+Contact Person:
+         Phone:
+        E-mail:
+
+	
+
+Department of Environmental Resources Management
+DERM
+701 NW 1st Court
+Miami, FL
+33136
+305-372-6700
+
+
+http://gisweb.miamidade.gov/GISSelfServices/GeographicData/MDGeographicData.html
+derm@miamidade.gov
+Charlton Lewis
+
+
+FGDL CONTACT:
+
+Name:                   FLORIDA GEOGRAPHIC DATA LIBRARY
+Abbr. Name:             FGDL
+Address:                Florida Geographic Data Library
+                        431 Architecture Building
+                        PO Box 115706
+                        Gainesville, FL  32611-5706
+Web site:               http://www.fgdl.org
+
+Contact FGDL: 
+
+      Technical Support:	        http://www.fgdl.org/fgdlfeed.html
+      FGDL Frequently Asked Questions:  http://www.fgdl.org/fgdlfaq.html
+      FGDL Mailing Lists:		http://www.fgdl.org/fgdl-l.html
+      For FGDL Software:                http://www.fgdl.org/software.html
+
+
