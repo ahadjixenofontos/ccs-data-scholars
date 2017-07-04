@@ -176,19 +176,70 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdHJpbmdyKVxubGlicmFyeShnZ3Bsb3QyKVxuYGBgIn0= -->
+<pre class="r"><code>library(stringr)
+library(ggplot2)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZW1vdGlvbnMgPC0gcmVhZC5jc3YoXCIuLi9kYXRhc2V0cy9lbW90aW9uLWxpa2VzLWRhdGFzZXQuY3N2XCIsIGhlYWRlciA9IFRSVUUpXG5oZWFkKGVtb3Rpb25zKVxuYGBgIn0= -->
+<pre class="r"><code>emotions &lt;- read.csv(&quot;../datasets/emotion-likes-dataset.csv&quot;, header = TRUE)
+head(emotions)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzMlNXMUxDTUJTRzA2WVVpZU5saG5YUUVSUXY3NjdBSjNpTUpaUkttM1RTVkgxMFFhN0dCWUVuTndhYTBjNDA1K1JMY2k3NTgvSzhtSkVGUVFqRkNDY3dZbkNUR0lZSUpXaWs3U2RDZUF3T3JPQUxzS2xaTkhQWWd0REFzV0h2WUZxeGQxYTE0RjNEVHh3bGE1cXphZmJXc01LUmMwTnVqcEhaTkF2SWJVRHVBaklQeUgxQUhnTHlHSkFuUzA1Ykd1UVZiWDFIaHo1aHV4SVN2TjNSRFNXOUc4TFc2bkR4M2tVWStMQ1VGMHk2eVZrdXVHSjFvOXg4dEtGTlUzSUdlUzBZY3RZcFNTdS92KzFrSTh1VzJlQjQvMTk1eUpVWGcxalJEL2pmWU9jd0J6OWE5cnZsdEdhK1crd3ZwNnhwd1RLOTVPdGh0VkNsNFA1VVZXNzFxWk5RSXlrK01oOU8xeEIvSWZPbGYxUk5WbFRSYkMxMUdsUDVTYmloYUhSR0NCYVAzZjBlSDQ1a0QxeDFYQ2RmVGZKTng3ZVRxWG1QOWhWSHJxREk2ZVo5YkZNbWZhMVN4Z3RRNDlBc2ZXVmVpVXRvMHZTWWdSN2M2MGVBdHBrUzZxQVl5VVhsaVZWbDl3dnZtTXdpaHdNQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["image.name"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["emotion"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["likes"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"face1.jpeg","2":"neutral","3":"519","_rn_":"1"},{"1":"face2.jpeg","2":"happiness","3":"466","_rn_":"2"},{"1":"face3.jpeg","2":"neutral","3":"172","_rn_":"3"},{"1":"face4.jpeg","2":"surprise","3":"309","_rn_":"4"},{"1":"face5.jpeg","2":"happiness","3":"722","_rn_":"5"},{"1":"face6.jpeg","2":"surprise","3":"345","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div id="come-up-with-other-variables-that-may-be-important" class="section level2">
+<h2>Come up with other variables that may be important</h2>
+<div id="which-of-these-can-you-get-information-on" class="section level3">
+<h3>Which of these can you get information on?</h3>
+<p>Info associated with the file, info that you can infer by looking at the photo.</p>
+<p>Geolocation may be one but the photos are stock photos, and that info is not part of their metadata. What else is part of their metadata? What would you do to take a look?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShleGlmcilcbiMgR28gdG8gdGhlIGZvbGRlciB3aGVyZSB0aGUgcGljdHVyZXMgYXJlIHNhdmVkXG5zZXR3ZChcIi4uL2ZhY2VzLXBob3Rvcy9cIilcbmBgYCJ9 -->
+<pre class="r"><code>library(exifr)
+# Go to the folder where the pictures are saved
+setwd(&quot;../faces-photos/&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIHdvcmtpbmcgZGlyZWN0b3J5IHdhcyBjaGFuZ2VkIHRvIC9Vc2Vycy9hdGhlbmFoYWRqaXhlbm9mb250b3MvY2NzLWRhdGEtc2Nob2xhcnMvaW1hZ2UtcHJvamVjdC9mYWNlcy1waG90b3MgaW5zaWRlIGEgbm90ZWJvb2sgY2h1bmsuIFRoZSB3b3JraW5nIGRpcmVjdG9yeSB3aWxsIGJlIHJlc2V0IHdoZW4gdGhlIGNodW5rIGlzIGZpbmlzaGVkIHJ1bm5pbmcuIFVzZSB0aGUga25pdHIgcm9vdC5kaXIgb3B0aW9uIGluIHRoZSBzZXR1cCBjaHVuayB0byBjaGFuZ2UgdGhlIHRoZSB3b3JraW5nIGRpcmVjdG9yeSBmb3Igbm90ZWJvb2sgY2h1bmtzLlxuIn0= -->
+<pre><code>The working directory was changed to /Users/athenahadjixenofontos/ccs-data-scholars/image-project/faces-photos inside a notebook chunk. The working directory will be reset when the chunk is finished running. Use the knitr root.dir option in the setup chunk to change the the working directory for notebook chunks.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIGluIHRoZSBwaWN0dXJlIG1ldGFkYXRhIGZvciBhbGwgcGhvdG9zIGluIHRoZSBmb2xkZXIgXG5waG90b19tZXRhZGF0YSA8LSBleGlmcihcIi5cIiwgcmVjdXJzaXZlID0gVFJVRSlcbmBgYCJ9 -->
+<pre class="r"><code># Read in the picture metadata for all photos in the folder 
+photo_metadata &lt;- exifr(&quot;.&quot;, recursive = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiR2VuZXJhdGluZyBjb21tYW5kIGxpbmUgYXJndW1lbnRzLi4uXG5SdW5uaW5nIDEgY29tbWFuZHNcbiJ9 -->
+<pre><code>Generating command line arguments...
+Running 1 commands</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Inside/outside</p>
+<p>Average color is something that you can calculate based only on the image file.</p>
+</div>
+</div>
+<div id="add-the-variable-that-you-chose-to-the-dataset.-is-there-a-relationship" class="section level2">
+<h2>Add the variable that you chose to the dataset. Is there a relationship?</h2>
+</div>
+<div id="how-about-conditional-relationships-are-smiles-only-getting-more-likes-if-the-colors-of-the-picture-are-also-warm" class="section level2">
+<h2>How about conditional relationships? Are smiles only getting more likes if the colors of the picture are also warm?</h2>
 <p>This is an <a href="http://rmarkdown.rstudio.com">R Markdown</a> Notebook. When you execute code within the notebook, the results appear beneath the code.</p>
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
 <p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
 <p>When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the <em>Preview</em> button or press <em>Cmd+Shift+K</em> to preview the HTML file).</p>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRG8gc21pbGVzIGxlYWQgdG8gbW9yZSBsaWtlcz8iCmF1dGhvcjogIkF0aGVuYSBIYWRqaXhlbm9mb250b3MsIFBoRCIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCmxpYnJhcnkoZ2dwbG90MikKYGBgCgoKYGBge3J9CgpgYGAKCgoKCgoKCgoKClRoaXMgaXMgYW4gW1IgTWFya2Rvd25dKGh0dHA6Ly9ybWFya2Rvd24ucnN0dWRpby5jb20pIE5vdGVib29rLiBXaGVuIHlvdSBleGVjdXRlIGNvZGUgd2l0aGluIHRoZSBub3RlYm9vaywgdGhlIHJlc3VsdHMgYXBwZWFyIGJlbmVhdGggdGhlIGNvZGUuIAoKVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkNtZCtTaGlmdCtFbnRlciouIAoKQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkNtZCtPcHRpb24rSSouCgpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkNtZCtTaGlmdCtLKiB0byBwcmV2aWV3IHRoZSBIVE1MIGZpbGUpLgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRG8gc21pbGVzIGxlYWQgdG8gbW9yZSBsaWtlcz8iCmF1dGhvcjogIkF0aGVuYSBIYWRqaXhlbm9mb250b3MsIFBoRCIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCmxpYnJhcnkoZ2dwbG90MikKYGBgCgoKYGBge3J9CmVtb3Rpb25zIDwtIHJlYWQuY3N2KCIuLi9kYXRhc2V0cy9lbW90aW9uLWxpa2VzLWRhdGFzZXQuY3N2IiwgaGVhZGVyID0gVFJVRSkKaGVhZChlbW90aW9ucykKYGBgCgojIyBDb21lIHVwIHdpdGggb3RoZXIgdmFyaWFibGVzIHRoYXQgbWF5IGJlIGltcG9ydGFudAoKIyMjIFdoaWNoIG9mIHRoZXNlIGNhbiB5b3UgZ2V0IGluZm9ybWF0aW9uIG9uPyAKCkluZm8gYXNzb2NpYXRlZCB3aXRoIHRoZSBmaWxlLCBpbmZvIHRoYXQgeW91IGNhbiBpbmZlciBieSBsb29raW5nIGF0IHRoZSBwaG90by4gCgpHZW9sb2NhdGlvbiBtYXkgYmUgb25lIGJ1dCB0aGUgcGhvdG9zIGFyZSBzdG9jayBwaG90b3MsIGFuZCB0aGF0IGluZm8gaXMgbm90IHBhcnQgb2YgdGhlaXIgbWV0YWRhdGEuIFdoYXQgZWxzZSBpcyBwYXJ0IG9mIHRoZWlyIG1ldGFkYXRhPyBXaGF0IHdvdWxkIHlvdSBkbyB0byB0YWtlIGEgbG9vaz8gCgpgYGB7cn0KbGlicmFyeShleGlmcikKCiMgR28gdG8gdGhlIGZvbGRlciB3aGVyZSB0aGUgcGljdHVyZXMgYXJlIHNhdmVkCnNldHdkKCIuLi9mYWNlcy1waG90b3MvIikKCiMgUmVhZCBpbiB0aGUgcGljdHVyZSBtZXRhZGF0YSBmb3IgYWxsIHBob3RvcyBpbiB0aGUgZm9sZGVyIApwaG90b19tZXRhZGF0YSA8LSBleGlmcigiLiIsIHJlY3Vyc2l2ZSA9IFRSVUUpCmBgYAoKCkluc2lkZS9vdXRzaWRlIAoKQXZlcmFnZSBjb2xvciBpcyBzb21ldGhpbmcgdGhhdCB5b3UgY2FuIGNhbGN1bGF0ZSBiYXNlZCBvbmx5IG9uIHRoZSBpbWFnZSBmaWxlLiAKCiMjIEFkZCB0aGUgdmFyaWFibGUgdGhhdCB5b3UgY2hvc2UgdG8gdGhlIGRhdGFzZXQuIElzIHRoZXJlIGEgcmVsYXRpb25zaGlwPwoKIyMgSG93IGFib3V0IGNvbmRpdGlvbmFsIHJlbGF0aW9uc2hpcHM/IEFyZSBzbWlsZXMgb25seSBnZXR0aW5nIG1vcmUgbGlrZXMgaWYgdGhlIGNvbG9ycyBvZiB0aGUgcGljdHVyZSBhcmUgYWxzbyB3YXJtPyAKCgoKCgoKCgpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiAKClRyeSBleGVjdXRpbmcgdGhpcyBjaHVuayBieSBjbGlja2luZyB0aGUgKlJ1biogYnV0dG9uIHdpdGhpbiB0aGUgY2h1bmsgb3IgYnkgcGxhY2luZyB5b3VyIGN1cnNvciBpbnNpZGUgaXQgYW5kIHByZXNzaW5nICpDbWQrU2hpZnQrRW50ZXIqLiAKCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDbWQrT3B0aW9uK0kqLgoKV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDbWQrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4K</div>
 
 
 

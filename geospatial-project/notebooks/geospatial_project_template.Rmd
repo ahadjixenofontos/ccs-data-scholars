@@ -35,7 +35,7 @@ The first thing you will need to do for your project is import the data into you
 Re-run the code block below for yourself, and check that the birds object appears in your Environment window on the right. 
 
 ```{r}
-libraries <- read.csv("~/ccs-data-scholars/ccs-data-scholars/geospatial-project/datasets/libraries.csv", header = TRUE)
+libraries <- read.csv("./geospatial-project/datasets/libraries.csv", header = TRUE)
 ```
 
 What gibberish is this!? I hear you. Let's take it slow: 

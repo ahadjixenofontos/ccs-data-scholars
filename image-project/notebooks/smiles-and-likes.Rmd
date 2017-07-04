@@ -12,10 +12,36 @@ library(ggplot2)
 
 
 ```{r}
+emotions <- read.csv("../datasets/emotion-likes-dataset.csv", header = TRUE)
+head(emotions)
+```
 
+## Come up with other variables that may be important
+
+### Which of these can you get information on? 
+
+Info associated with the file, info that you can infer by looking at the photo. 
+
+Geolocation may be one but the photos are stock photos, and that info is not part of their metadata. What else is part of their metadata? What would you do to take a look? 
+
+```{r}
+library(exifr)
+
+# Go to the folder where the pictures are saved
+setwd("../faces-photos/")
+
+# Read in the picture metadata for all photos in the folder 
+photo_metadata <- exifr(".", recursive = TRUE)
 ```
 
 
+Inside/outside 
+
+Average color is something that you can calculate based only on the image file. 
+
+## Add the variable that you chose to the dataset. Is there a relationship?
+
+## How about conditional relationships? Are smiles only getting more likes if the colors of the picture are also warm? 
 
 
 

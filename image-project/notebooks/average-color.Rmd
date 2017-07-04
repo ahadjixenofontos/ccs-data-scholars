@@ -1,0 +1,25 @@
+---
+title: "Calculate the average color of an image"
+author: "Guanhua Chen"
+output: html_notebook
+---
+
+```{r}
+library('imager')
+
+# Load the picture
+photo <- load.image()
+
+# Preview the picture loaded
+plot(photo)
+
+#calculate the average values of the RGB channels
+averageRGB=imsplit(photo,"c") %>% laply(mean)*255
+averageRGB
+
+#draw a shade with the average RGB
+imfill(20,20,val=c(averageRGB,0,255)) %>% plot
+
+
+```
+
