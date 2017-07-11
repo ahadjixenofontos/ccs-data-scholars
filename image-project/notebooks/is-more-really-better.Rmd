@@ -1,0 +1,52 @@
+---
+title: "Is more really better?"
+author: "Athena Hadjixenofontos, PhD"
+date: "7/7/2017"
+output: html_document
+---
+
+## Why are we doing this? 
+
+We've been discussing the idea of bias, and to better understand it we need to calibrate our intuition by examining the factors that play into it. 
+
+## Whether or not your observation is biased depends on the question that you ask
+
+If you ask: "Do **all celebrities** drive Lamborghinis?", but you only look at celebrities that live in New York, you will get a biased answer that represents **"celebrities who live in New York"** more than it represents **"all celebrities"**. 
+
+But, if you ask "Do **all celebrities who live in New York** drive Lamborghinis?" and you only look at celebrities that live in New York, you will get a more representative answer. 
+
+A focused question is more likely to give you an accurate answer. 
+
+It makes perfect sense, doesn't it? 
+
+## Do more pixels in an image allow us to calculate a more accurate average color? 
+
+In other words, does the resolution of the image influence which average color we get? 
+
+### Setting expectations:
+
+**If** more pixels is really better, then we will see a difference in the average colors that we calculate from the low-resolution versus high-resolution versions of the same image. 
+
+**If** more pixels don't help us get a more accurate average color, then we won't see a differece in the average color that we calculate from the low-resolution versus high-resolution resolution versions of the same image. 
+
+## Detective work: Setting the stage
+
+Let's load in some images. Each image has fewer pixels than the previous version. 
+
+We'll load in 4 images of varying resolution. Why is 4 better than 2 (a low-resolution and a high-resolution)? 
+
+**Hint:** Think about the case where there is a difference in the average color, what would having information on the average color of 4 different photos allow us to do, that having only 2 would not? 
+
+```{r}
+
+```
+
+
+## Detective work: The play
+
+```{r}
+
+```
+
+
+## So, is more really better? 

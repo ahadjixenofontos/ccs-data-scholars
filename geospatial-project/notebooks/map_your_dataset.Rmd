@@ -1,21 +1,21 @@
 ---
-title: "Geospatial Data Project - Analysis Template"
+title: "Map your dataset!"
 author: "Athina Hadjixenofontos, Ph.D and Guanhua Chen"
 date: "6/1/2017"
 output: html_notebook
 ---
 
-How to use: Please open this R Markdown document in RStudio, so you can adapt it for your own analysis. See <http://rmarkdown.rstudio.com> for more on R Markdown. 
+How to use: Please open this R Markdown document in RStudio, so you can add your code into it to make your own maps. See <http://rmarkdown.rstudio.com> if you are curious about R Markdown. 
 
-### Welcome to your first geospatial project! 
+### Welcome to your first geospatial project 
 
 We created this document as a template, so you can focus on learning some of the basics without having to worry about building your project from scratch. 
 
-Fortunately, this document is also not something that we made from scratch! We are relying on lots of code written by others, who we call **developers**. These are ordinary people like you and me, who figured out how to e.g. plot the outline of the United States and packaged it up in a **library** so that we can use their code simply by calling the library() function.
+Fortunately, this document is also not something that we made from scratch! We are relying on lots of code written by others, who we call **developers**. These are ordinary people like you and me, who figured out how to e.g. plot the outline of the United States and packaged it up in a **library** so that we can use their code simply by calling the `library()` function.
 
 It really is a community effort.
 
-The gray block below contains R code. You'll be running the code, seeing what it does, changing it, testing that your changes are doing what you expected they would do, all in these gray boxes. The only thing you **won't** need to change are the first and last lines that contain the backticks `. 
+The gray block below contains R code. You'll be running the code, seeing what it does, changing it, testing that your changes are doing what you expected they would do, all in these gray boxes. One thing you **won't** need to change are the first and last lines that contain the backticks `. 
 
 ```{r}
 library(ggplot2)
@@ -35,7 +35,7 @@ The first thing you will need to do for your project is import the data into you
 Re-run the code block below for yourself, and check that the birds object appears in your Environment window on the right. 
 
 ```{r}
-libraries <- read.csv("./geospatial-project/datasets/libraries.csv", header = TRUE)
+libraries <- read.csv("../datasets/libraries.csv", header = TRUE)
 ```
 
 What gibberish is this!? I hear you. Let's take it slow: 
@@ -124,7 +124,7 @@ In the code block below, type the commands that will return the means and standa
 
 ```
 
-## Mapping a map of the world
+## Practice example: Mapping a map of the world
 
 So let's put the Miami-Dade libraries on a map! 
 
@@ -164,11 +164,11 @@ Woohoo! You just had the computer draw a map by connecting the dots of all the c
 First, we need to only take the coordinates data for countries or states in our dataset, instead of for the entire world.
 
 ```{r}
-states <- map_data("state") # load the data for all states in the USA
+# The county maps will give us access to the Miami-Dade coordinates data
 counties <- map_data("county") # load the data for all counties in the USA
 
-florida <- states[states$region == "florida",] # from all states, select only Florida 
-florida_counties <- counties[counties$region == "florida",] # from all counties, select only Florida counties
+# Now let's only pick out the miami-dade county latitudes and longitudes to use in making the map
+miamidade <- counties[counties$subregion == "miami-dade",]
 ```
 
 The above block of code gave us the coordinates for the regions of the world that we care about for the Miami-Dade libraries dataset - that is Florida!
@@ -181,7 +181,7 @@ It makes sense to make a map of the state of Florida as the first layer:
 
 ```{r}
 ggplot() + 
-  geom_polygon(data = florida, # geom_polygon to connect the dots, using the florida data
+  geom_polygon(data = miamidade, # geom_polygon to connect the dots, using the florida data
                aes(x = long, # use the variable long on the x axis
                    y = lat, # use the variable lat on the y axis
                    group = group)) +
@@ -192,23 +192,21 @@ Beautiful! Okay, now, let's draw the counties on top of this map as an additiona
 
 To make it easier to see other colors that we will map on top, let's change the fill color from the dark gray to a lighter gray. 
 
-Now that we've figured out the code for plotting Florida, we can also save the plot in a variable, so we can access it later. 
+Now that we've figured out the code for plotting Miami-Dade county, we can save the plot in a variable, so we can access it later. 
+
+**Notice:** what are the differences in the code between the block that follows this sentence and the code block above? What do they do? 
 
 ```{r}
-florida_map <- ggplot() + # save the plot in a variable named "florida_map"
-  geom_polygon(data = florida, 
-               aes(x = long, 
-                   y = lat, 
-                   group = group)) +
-  geom_polygon(data = florida_counties,   # plot Florida counties on top
-               aes(x = long, 
-                   y = lat, 
-                   group = group), 
+miamidade_map <- ggplot() + # save the plot in a variable named "florida_map"
+  geom_polygon(data = miamidade,   # from the Miami-Dade county coordinates dataset
+               aes(x = long,       # mark the longitudes
+                   y = lat,        # mark the latitudes
+                   group = group), # connect the dots in the order specified by the group variable
                fill = "gray",           # fill the polygons with lighter gray
                color = "white") +       # add a white border
   coord_quickmap()
 
-florida_map # call the plot named "florida_map" to appear on the screen
+miamidade_map # call the plot named "miamidade_map" to appear on the screen
 ```
 
 #### Your turn
@@ -221,7 +219,7 @@ Use the code examples from above, and substitute "florida" for the region of int
 
 ```
 
-Awesome! Now, follow the plotting examples above to produce a map of the state represented in your dataset, complete with county lines. 
+Awesome! Now, follow the plotting examples above to produce a map of the state or county represented in your dataset. 
 
 ```{r}
 
@@ -230,7 +228,7 @@ Awesome! Now, follow the plotting examples above to produce a map of the state r
 
 ## We're so close! Let's map the libraries on top of Miami-Dade County
 
-First, let's remind ourselves what we have in our dataset by taking another look. 
+First, let's remind ourselves what we have in our libraries dataset by taking another look. 
 
 ```{r}
 head(libraries)
@@ -238,11 +236,7 @@ head(libraries)
 
 ```{r}
 libraries_map <- ggplot() +        # I chose the map name to be "libraries_map"
-  geom_polygon(data = florida,        # draw the coastline of Florida
-               aes(x = long, 
-                   y = lat, 
-                   group = group)) +
-  geom_polygon(data = florida_counties,     # draw the Florida county lines
+  geom_polygon(data = miamidade,     # draw the Miami-Dade county perimeter
                aes(x = long, 
                    y = lat, 
                    group = group), 
@@ -258,11 +252,10 @@ libraries_map <- ggplot() +        # I chose the map name to be "libraries_map"
 libraries_map             # call the saved map to appear on the screen
 ```
 
+Here you have it! You just drew a map of Miami-Dade county, and annotated it with the locations of the public libraries! 
 
-## Adding street maps to the plot
+What do you notice about this map? Anything you didn't expect? What are some of the libraries doing in what seems like the ocean? 
 
-The `ggmap` package is an incredible library that allows us to download maps from Google or from a project called Open Street Maps to use in our plots. This means you can add streets to the plot! 
-
-
+## Woohoo! You should feel very proud of yourself. Time to celebrate!
 
 
