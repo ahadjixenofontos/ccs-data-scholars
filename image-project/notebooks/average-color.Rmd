@@ -24,7 +24,7 @@ photo <- load.image("../average-color-photos/2.jpg")
 plot(photo)
 ```
 
-What do the axes represent here? 
+What do the axes represent here? How do you know? 
 
 ## Wait, how does the computer understand color?
 
@@ -96,7 +96,7 @@ scaled_averageRGB
 
 ## Draw an image filled with the average color 
 
-Look up the help() page for the imfill() function. What are the arguments that it takes?
+Look up the `help()` page for the `imfill()` function. What are the arguments that it takes?
 
 ```{r}
 # Draw a shade with the average RGB

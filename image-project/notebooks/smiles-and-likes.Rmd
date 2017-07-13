@@ -4,17 +4,66 @@ author: "Athena Hadjixenofontos, PhD"
 output: html_notebook
 ---
 
+## Load in the dataset
 
 ```{r}
 library(stringr)
 library(ggplot2)
 ```
 
-
 ```{r}
-emotions <- read.csv("../datasets/emotion-likes-dataset.csv", header = TRUE)
+emotions <- read.csv("../datasets/emotion-likes-dataset.csv", header = TRUE, stringsAsFactors = FALSE)
 head(emotions)
 ```
+
+## Explore the dataset
+
+### Birds-eye view: what do we have here?
+
+```{r}
+str(emotions)
+```
+
+### Descriptive statistics
+
+(Introduce data types: chr, int and data frames)
+(Introduce variable types: categorical and continuous)
+
+```{r}
+table(emotions$emotion)
+max(emotions$likes)
+min(emotions$likes)
+mean(emotions$likes)
+sd(emotions$likes)
+```
+
+Broad differences: are the means of how many likes a photo got different for each of the emotions? 
+
+```{r}
+happy <- emotions[emotions$emotion == "happiness", ]
+neutral <- emotions[emotions$emotion == "neutral", ]
+
+max(happy$likes, na.rm = TRUE)
+min(happy$likes, na.rm = TRUE)
+mean(happy$likes, na.rm = TRUE)
+sd(happy$likes, na.rm = TRUE)
+
+max(neutral$likes, na.rm = TRUE)
+min(neutral$likes, na.rm = TRUE)
+mean(neutral$likes, na.rm = TRUE)
+sd(neutral$likes, na.rm = TRUE)
+
+
+```
+
+(Introduce functions? Repeated code is not good practice.)
+
+### Graph the relationship between emotions and number of likes
+
+```{r}
+ggplot()
+```
+
 
 ## Come up with other variables that may be important
 
@@ -23,6 +72,8 @@ head(emotions)
 Info associated with the file, info that you can infer by looking at the photo. 
 
 Geolocation may be one but the photos are stock photos, and that info is not part of their metadata. What else is part of their metadata? What would you do to take a look? 
+
+How about average color? Do images with warmer colors and smiles get more likes than images with cooler colors and smiles? How would I find out? 
 
 ```{r}
 library(exifr)

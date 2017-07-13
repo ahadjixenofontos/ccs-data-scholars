@@ -21,7 +21,7 @@ It makes perfect sense, doesn't it?
 
 ## Do more pixels in an image allow us to calculate a more accurate average color? 
 
-In other words, does the resolution of the image influence which average color we get? 
+In other words, does the resolution of the image influence the average color we get? 
 
 ### Setting expectations:
 
