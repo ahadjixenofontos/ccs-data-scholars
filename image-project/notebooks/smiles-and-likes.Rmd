@@ -24,6 +24,42 @@ head(emotions)
 str(emotions)
 ```
 
+We see that for each of the images (indicated by their file name in the image.name variable), we have an emotion associated with it, and the number of likes that it got on social media. 
+
+Although we can't yet tell anything about a possible relationship between likes and happiness, we now know how our variables are represented. 
+
+In this dataset, emotions are represented as categorical variables. What other options exist for representing emotions? 
+
+On the more technical side, emotions are stored as a character string, which in R is called the "character" data type, abbreviated as "chr". 
+
+The number of likes is a continuous variable, stored as an integer, abbreviated as "int".
+
+You can use str() to find out the structure of any object that has any data type, not only of a data frame containing data that you've read in. 
+
+### Some terminology: data types
+
+For the computer to know what to do when you ask it to e.g. return the sum two integers, it first needs to know that the two things that you're giving it are integers. The various classifications that data can take are called data types. In R, there are 6 data types. The 4 most commonly used ones are: character, integer, logical, and numeric (also called "double", and as opposed to the integer data type it can store numbers with decimals). 
+
+These four can be used to build more complicated data types. For example, individual letters characters come together to make a string of characters. 
+
+### The more information you get, the more questions arise
+
+Okay, so now that you have a better idea of what's what, let's return to thinking about the emotions dataset. What are some of the questions that come up for you when you look at the output of str()?
+
+Here are some of my questions:
+1) How many different values does the emotion variable take? 
+2) (Related to Q1) How many photos do we have for each of the emotions? 
+3) (Related to Q1) Could this distribution of the various emotions be a problem when we try to answer the question that drives our analysis?
+4) What is the maximum and what is the minimum number of likes that a photo has in this dataset? 
+5) (Related to Q4) What is the distribution of likes across all photos? 
+6) (Related to Q4) Does this distribution change if I only consider photos classified with the "happiness" emotion? 
+
+That's a start - I'm sure that more questions (perhaps more meaningful and/or more specific questions) will arise as we're answering these, so I'll hold off on making the list much longer, for now. 
+
+You may also have questions about whether the emotion variable is acurrately encoding the emotion displayed in the photo. Do you trust the encoding? I hope you do have this question, and others along the same lines! 
+
+In order to answer those types of questions, we'd need an "objective" mapping of facial expressions to emotions. That information isn't available in our dataset, so although the accuracy question is a legitimate one, we'll put it and the others in its category aside for now, while we're working with the information that we do have at hand. 
+
 ### Descriptive statistics
 
 (Introduce data types: chr, int and data frames)
@@ -36,6 +72,29 @@ min(emotions$likes)
 mean(emotions$likes)
 sd(emotions$likes)
 ```
+
+Cool! Which questions can we now answer (from above)? 
+
+For Q3, what if the value we were interested in was "anger" instead of "happiness"? Would we be able to continue our analysis? Why/why not? 
+
+### A picture is worth a thousand words: Descriptive graphs
+
+![xkcd.com](https://imgs.xkcd.com/comics/correlation.png)
+
+### Let's talk about relationships
+
+Correlation between two variables
+
+Visualized by scatterplot (if both are continuous) - why?
+or boxplot (if one is continuous and one is categorical) - why? 
+
+Correlation is not causation. Causal relationships are notoriously difficult to establish. There are a set of criteria that need to be fulfilled, but most of the time 
+
+
+
+
+### Differences between groups: do happy faces get more likes? 
+
 
 Broad differences: are the means of how many likes a photo got different for each of the emotions? 
 
@@ -97,14 +156,3 @@ Average color is something that you can calculate based only on the image file.
 
 
 
-
-
-
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
