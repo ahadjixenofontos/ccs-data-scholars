@@ -7,11 +7,6 @@ output: html_notebook
 ## Load in the dataset
 
 ```{r}
-library(stringr)
-library(ggplot2)
-```
-
-```{r}
 emotions <- read.csv("../datasets/emotion-likes-dataset.csv", header = TRUE, stringsAsFactors = FALSE)
 head(emotions)
 ```
@@ -63,7 +58,7 @@ In order to answer those types of questions, we'd need an "objective" mapping of
 ### Descriptive statistics
 
 (Introduce data types: chr, int and data frames)
-(Introduce variable types: categorical and continuous)
+(Introduce variable types: categorical, continuous, binary/dichotomous, ordinal etc)
 
 ```{r}
 table(emotions$emotion)
@@ -81,6 +76,30 @@ For Q3, what if the value we were interested in was "anger" instead of "happines
 
 ![xkcd.com](https://imgs.xkcd.com/comics/correlation.png)
 
+Histograms are used to visualize the distributions of continuous variables. 
+
+Barplots are used to visualize the distributions of categorical variables. 
+
+```{r}
+# Histogram of number of likes
+hist(emotions$likes, xlab = "Number of likes", main = "Distribution of likes in photo dataset (N = 107)", breaks = 20)
+```
+
+
+```{r}
+# Barplot of the numbers of each emotion
+freq_emotions <- table(emotions$emotion)  # Rerun the frequency table command, saving the output to a variable
+barplot(freq_emotions, xlab = "Emotion", main = "Number of photos displaying each emotion (N = 107)")
+```
+
+Why did we need to feed the frequency table into the barplot() function rather than the emotions$emotion variable? 
+
+Notice that we're using functions from a library called graphics, which is part of base R, hist() and barplot(). Base R is the core set that comes with the installation of R itself, rather than any other libraries. Pulling up the help for either of these two functions will show you which library they are a part of: hist {graphics} 
+
+Why am I even pointing this out? Because it has to do with the person who developed the functionality and the group that they were affiliated with. Software is created by people, like you and I, who are a part of the greater community of developers. 
+
+Extra: Can you use what you learned about making plots in ggplot2 to remake these same two plots using the function ggplot()?
+
 ### Let's talk about relationships
 
 Correlation between two variables
@@ -88,10 +107,23 @@ Correlation between two variables
 Visualized by scatterplot (if both are continuous) - why?
 or boxplot (if one is continuous and one is categorical) - why? 
 
+```{r}
+boxplot(emotions$likes ~ emotions$emotion, xlab = "Emotion", ylab = "Number of likes", main = "Distributions of likes for each emotion (N = 107)")
+```
+
+
 Correlation is not causation. Causal relationships are notoriously difficult to establish. There are a set of criteria that need to be fulfilled, but most of the time 
 
 
+### Quality Control
 
+Can we remove the two outiers in the neutral photos? Why/why not?
+
+Let's eliminate all the data that we're not interested in for this analysis, to end up with a **clean dataset**.
+
+```{r}
+
+```
 
 ### Differences between groups: do happy faces get more likes? 
 
