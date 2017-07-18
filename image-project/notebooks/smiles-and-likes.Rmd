@@ -74,8 +74,6 @@ For Q3, what if the value we were interested in was "anger" instead of "happines
 
 ### A picture is worth a thousand words: Descriptive graphs
 
-![xkcd.com](https://imgs.xkcd.com/comics/correlation.png)
-
 Histograms are used to visualize the distributions of continuous variables. 
 
 Barplots are used to visualize the distributions of categorical variables. 
@@ -102,18 +100,26 @@ Extra: Can you use what you learned about making plots in ggplot2 to remake thes
 
 ### Let's talk about relationships
 
-Correlation between two variables
-
-Visualized by scatterplot (if both are continuous) - why?
+Visualized by scatterplot (if both are continuous, can also calculate correlation) - why?
 or boxplot (if one is continuous and one is categorical) - why? 
 
 ```{r}
 boxplot(emotions$likes ~ emotions$emotion, xlab = "Emotion", ylab = "Number of likes", main = "Distributions of likes for each emotion (N = 107)")
 ```
 
+What can you tell from this plot about the relationship of each emotion with number of likes? 
 
-Correlation is not causation. Causal relationships are notoriously difficult to establish. There are a set of criteria that need to be fulfilled, but most of the time 
+How far can we extend inference at this point? 
 
+Is anything surprising? 
+
+Does this establish a causal relationship between smiling and getting lots of likes? Do we know for a fact that the smiles in these photos are what caused them to get this many likes, compared to the other emotions? Why/why not? 
+
+In addition to "hidden" variables driving this apparent association, one possible reason that could have given rise to it is chance. The bigger the difference, the less likely to have been caused by chance. 
+
+Causal relationships are notoriously difficult to establish. There are a set of criteria that need to be fulfilled, but most of the time studies do not have the resources or the correct experimental design to be able to establish causality. 
+
+![xkcd.com](https://imgs.xkcd.com/comics/correlation.png)
 
 ### Quality Control
 
@@ -121,14 +127,20 @@ Can we remove the two outiers in the neutral photos? Why/why not?
 
 Let's eliminate all the data that we're not interested in for this analysis, to end up with a **clean dataset**.
 
-```{r}
+In the code block below, I'm showing you a couple different ways you can use to subset a data frame. Why does the bracket operator [] need the comma at the end? 
 
+```{r}
+# The [] operator and subset() function do similar jobs
+clean <- emotions[emotions$emotion == "happiness" | emotions$emotion == "neutral",]
+
+clean <- subset(emotions, emotion == "happiness" | emotion == "neutral")
 ```
 
 ### Differences between groups: do happy faces get more likes? 
 
-
 Broad differences: are the means of how many likes a photo got different for each of the emotions? 
+
+We've seen the rough distribution in the box and whisker plot, which did well for giving us a sense of how many likes each group of pictures got, according to our dataset. 
 
 ```{r}
 happy <- emotions[emotions$emotion == "happiness", ]
@@ -143,18 +155,29 @@ max(neutral$likes, na.rm = TRUE)
 min(neutral$likes, na.rm = TRUE)
 mean(neutral$likes, na.rm = TRUE)
 sd(neutral$likes, na.rm = TRUE)
-
-
 ```
+
+We're getting a little bit more detail about the differences between these two groups of photos. The variances are unequal - this becomes important with the type of test we will use to calculate the proability that we got this difference in number of likes between the happy and neutral groups by chance. 
 
 (Introduce functions? Repeated code is not good practice.)
 
-### Graph the relationship between emotions and number of likes
-
 ```{r}
-ggplot()
+hist(happy$likes, breaks = 20)
 ```
 
+
+```{r}
+hist(neutral$likes, breaks = 20)
+```
+
+
+### Tests of significance: Student's t-test
+
+
+
+```{r}
+t.test(x = happy$likes, y = neutral$likes, alternative = "two.sided")
+```
 
 ## Come up with other variables that may be important
 
@@ -162,9 +185,17 @@ ggplot()
 
 Info associated with the file, info that you can infer by looking at the photo. 
 
+### Is the person in the photo in popular locations?
+
 Geolocation may be one but the photos are stock photos, and that info is not part of their metadata. What else is part of their metadata? What would you do to take a look? 
 
+### Are the colors of the photo warm, happy colors?  
+
 How about average color? Do images with warmer colors and smiles get more likes than images with cooler colors and smiles? How would I find out? 
+
+### Is the person in the photo a celebrity? 
+
+### Is the person in the photo 
 
 ```{r}
 library(exifr)
