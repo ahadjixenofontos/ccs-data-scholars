@@ -1,0 +1,182 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+### Welcome to your text-analysis project
+In this activity we will be analyzing Tweet data
+
+You are the casting director for a reality show called "The Celebrity Apprentice". The show will be hosted by a celebrity business owner and will teach people how to build and maintain a successful business. Your job is to determine which celebrity will be the best host of the show based on their Twitter accounts. You can judge based on popularity, fan engagement, tweet content etc.
+
+
+We will need a few tools to help us with analysis. Lets load our libraries.
+
+```{r}
+library(dplyr)
+library(tm)
+library(RWeka)
+```
+
+
+The two celebrities competing for the spot will be Kim Kardashian and Donald Trump. Lets load the datasets and take a look at what information our dataframes contain
+
+```{r}
+
+Kim_tweets <- read.csv("/Users/asiataylor/Documents/Data Scholars/KimKardashianTweets.csv", header=TRUE)
+Trump_tweets <- read.csv("/Users/asiataylor/Documents/Data Scholars/DonaldTrumpTweets2.csv", header=TRUE )
+
+
+colnames(Kim_tweets)
+colnames(Trump_tweets)
+```
+Next, we are going to create a corpus from the tweets. A corpus is a collection of the tweets in which each tweet is considered a document. 
+```{r}
+#CREATE CORPUS
+Kim_Corpus1 <-VCorpus(VectorSource(Kim_tweets$text))
+Kim.Mentions <- DocumentTermMatrix(Kim_Corpus1)
+
+
+
+Trump_Corpus1 <- VCorpus(VectorSource(Trump_tweets$text))
+Trump.Mentions <- DocumentTermMatrix(Trump_Corpus1)
+
+```
+Who a user mentions in their tweets can reveal some information about that user. Using grep, lets extract all of the people that Kim and Trump mention in this dataset. 
+```{r}
+Kim.Mentions <-Kim.Mentions[, grepl("^@", Kim.Mentions$dimnames$Terms)]
+Trump.Mentions <-Trump.Mentions[, grepl("^@", Trump.Mentions$dimnames$Terms)]
+```
+Let's create a dataframe from the result.
+```{r}
+
+Trump_mention.freq <-  colSums(as.matrix(Trump.Mentions))
+Trump_mentions=sort(Trump_mention.freq)
+Trump_words <- names(Trump_mentions)
+Trump_MentionFreqs = data.frame(terms=Trump_words, freq=Trump_mentions)
+
+Kim_mention.freq <-  colSums(as.matrix(Kim.Mentions))
+Kim_mentions=sort(Kim_mention.freq)
+Kim_words <- names(Kim_mentions)
+Kim_MentionFreqs = data.frame(terms=Kim_words, freq=Kim_mentions)
+
+
+
+```
+Let's view and compare each celebrity's top 20 mentions. 
+```{r}
+#Top 20 mentions
+tail(Trump_MentionFreqs, n=20)
+tail(Kim_MentionFreqs, n=20)
+
+barplot(tail(Kim_MentionFreqs$freq,n=20),main="Kim's Top 20 Mentions", 
+  	xlab="Users", ylab= "Counts",names.arg=tail(Kim_MentionFreqs$terms,n=20),las=2)
+
+barplot(tail(Trump_MentionFreqs$freq,n=20),main="Trumps's Top 20 Mentions", 
+  	xlab="Users", ylab= "Counts",names.arg=tail(Trump_MentionFreqs$terms,n=20),las=2)
+
+```
+Now that we have gathered all of the mentions and their counts, we can use this information to attempt to draw some insigths. Let's do some basic calculations. 
+```{r}
+#number of unique @'s for each candidate
+nrow(Trump_MentionFreqs)
+nrow(Kim_MentionFreqs)
+#total # of @'s for each candidate
+sum(Trump_MentionFreqs$freq)
+sum(Kim_MentionFreqs$freq)
+#normalize due to diff size of datasets
+
+```
+
+```{r}
+#how often they @     sum @'s/total tweets
+sum(Trump_MentionFreqs$freq)/nrow(Trump_tweets)
+sum(Kim_MentionFreqs$freq)/nrow(Kim_tweets)
+
+#variety in people each @   
+# unique @'s/total tweets
+nrow(Trump_MentionFreqs)/nrow(Trump_tweets)
+nrow(Kim_MentionFreqs)/nrow(Kim_tweets)
+```
+Notice how in each case we are dividing by the total number of tweets in each dataset. This is called normalization. We need to normalize the counts because the size of the two datasets differ. Have you seen this concept in any other activities that we've done?
+
+What do these values mean? How can these values help us in determining who will be the best TV show host. Think about how social media is used in advertising to help expand an audience. 
+
+
+Next, we are going to look at the common terms in each of the users tweets to get a sense of what topics they tweet about the most. In order to do this, we will start off with some data preprocessing. Let's create a function to remove punctuation, whitespaces and stopwords. Stopwords are extremely common words that are of little value such as "the","and", "want", etc.
+```{r}
+
+# Clean corpus function
+clean.corpus = function(myCorpus){
+myCorpus <- tm_map(myCorpus, content_transformer(tolower))
+removeURL <- function(x) gsub("http[^[:space:]]*", "", x)
+myCorpus <- tm_map(myCorpus, content_transformer(removeURL))
+# remove anything other than English letters or space
+removeNumPunct <- function(x) gsub("[^[:alpha:][@][:space:]]*", "", x)
+myCorpus <- tm_map(myCorpus, content_transformer(removeNumPunct))
+# remove stopwords
+myStopwords <- c(setdiff(stopwords('english'), c("r", "big")),
+"use", "see", "used", "via", "amp")
+myCorpus <- tm_map(myCorpus, removeWords, myStopwords)
+# remove extra whitespace
+myCorpus <- tm_map(myCorpus, stripWhitespace)
+
+}
+```
+
+```{r}
+
+#Create corpus from tweets
+Kim_Corpus <- VCorpus(VectorSource(Kim_tweets$text))
+Trump_Corpus <-VCorpus(VectorSource(Trump_tweets$text))
+
+
+#Clean corpus
+Trump_Corpus = clean.corpus(Trump_Corpus)
+Kim_Corpus = clean.corpus(Kim_Corpus)
+```
+Next we are going to tokenize the corpus of tweets. Tokenization is the act of breaking up strings (of words) into individual words, phrases or whole sentences. Here were are going to tokenizing the corpus into pairs of words called bigrams. Searching for common bigrams rather than individual words can be helpful in providing context. The RWeka library provides a function that will do this for us. 
+```{r}
+# Create tokenizer fucntion
+BigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
+
+Kim_tdm <- TermDocumentMatrix(Kim_Corpus, control = list(tokenize = BigramTokenizer))
+Trump_tdm <-TermDocumentMatrix(Trump_Corpus,control=list(tokenize=BigramTokenizer))
+
+```
+
+```{r}
+
+# create a data frame with words and their frequencies
+Trump_term.freq <-  rowSums(as.matrix(Trump_tdm))
+Trump_freqs=sort(Trump_term.freq)
+Trump_words <- names(Trump_freqs)
+Trump_BigramFreqs = data.frame(terms=Trump_words, freq=Trump_freqs)
+
+Kim_term.freq <-  rowSums(as.matrix(Kim_tdm))
+Kim_freqs=sort(Kim_term.freq)
+Kim_words <- names(Kim_freqs)
+Kim_BigramFreqs = data.frame(terms=Kim_words, freq=Kim_freqs)
+
+# top 20 bigrams
+tail(Trump_BigramFreqs, n=20)
+tail(Kim_BigramFreqs ,n=20)
+
+```
+Since we are casting for a show related to business, we would assume that the celebrity we select will be mentioning their successful business often on their social media accounts. Let's search for terms relating to success or business in each of their corpuses using grep. If you think of any other terms related to running a successful business, feel free to add to the list below!
+```{r}
+bus_terms = c("business","money","earnings","success","growth","brand","stock","market","enterprise","economy","account","cash","advertise","buy","buyers","earnings","commodity","stores","product","kkw","apprentice")
+
+```
+
+```{r}
+Trump_result <- filter(Trump_BigramFreqs, grepl(paste(bus_terms, collapse="|"), terms))
+Trump_result
+```
+
+```{r}
+Kim_result <- filter(Kim_BigramFreqs, grepl(paste(bus_terms, collapse="|"), terms))
+Kim_result
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
