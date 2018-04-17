@@ -1,0 +1,74 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Welcome to your image convolution activity!
+
+Images are divided into a grid or matrix. Each entry of the matrix is called a pixel. Each pixel has a value that corresponds with its color value. In this activity we are going to be learning how photo filters manipulate pixel values to achieve a new image. 
+
+The library we are going to be using in this activity is Magick. Magic is a library for image processing. 
+
+```{r}
+library(magick)
+```
+Next, choose any image that you want to add a filter to. We are going to load the image into our workspace. You can view your image using the print function. 
+
+```{r}
+image = image_read('image.png')
+print(image)
+```
+We are now going to apply our first filter to the image. In image processing, a kernel or convolution matrix is a small matrix. It is used for blurring, sharpening, edge detection and more. This is accomplished by doing a convolution between the image and the kernel.
+
+Lets create our first kernel by creating a 3x3 matrix and entering the values. 
+```{r}
+kern1 <- matrix(0, ncol = 3, nrow = 3)
+kern1[1, 2] <- 0.25
+kern1[2, c(1, 3)] <- 0.25
+kern1[3, 2] <- 0.25
+kern1
+```
+Next, lets do a convolution between the image and the kernel we just created. Magick has a built in function that does the math for us.
+
+After convolving the image, print your newly created image. What effect did this kernel have on the original image?
+
+```{r}
+img <- image_resize(image, "300x300")
+img_blurred <- image_convolve(img, kern1)
+image_append(c(img, img_blurred))
+```
+Let's create the next kernel!
+```{r}
+kern2 <- matrix(0, ncol = 3, nrow = 3)
+kern2[1, 1] <- -2
+kern2[1, 2] <- -1
+kern2[2, 1] <- -1
+kern2[2, c(2, 3)] <- 1
+kern2[3, 2] <- 1
+kern2[3, 3] <- 2
+kern2
+```
+Convolve your image with the second kernel. What is the effect of this kernel?
+```{r}
+img_sharpen <- image_convolve(img, kern2)
+image_append(c(img, img_sharpen))
+```
+Now for the final kernel ...
+```{r}
+kern3 <- matrix(0, ncol = 3, nrow = 3)
+kern3[1, 2] <- -1
+kern3[2, 2] <- 4
+kern3[2, c(1, 3)] <- -1
+kern3[3, 2] <- -1
+kern3
+```
+What were your results?
+```{r}
+img_edge <- image_convolve(img, kern3)
+image_append(c(img, img_edge))
+```
+Now try to experiment with creating your own kernel! What are your results?
+```{r}
+
+```
+
